@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">LibViewPager</string>
+
+    <string name="AccordionTransformer">AccordionTransformer</string>
+    <string name="BackgroundToForegroundTransformer">BackgroundToForegroundTransformer</string>
+    <string name="CubeInTransformer">CubeInTransformer</string>
+    <string name="CubeOutTransformer">CubeOutTransformer</string>
+    <string name="DefaultTransformer">DefaultTransformer</string>
+    <string name="DepthPageTransformer">DepthPageTransformer</string>
+    <string name="FlipHorizontalTransformer">FlipHorizontalTransformer</string>
+    <string name="FlipVerticalTransformer">FlipVerticalTransformer</string>
+    <string name="ForegroundToBackgroundTransformer">ForegroundToBackgroundTransformer</string>
+    <string name="RotateDownTransformer">RotateDownTransformer</string>
+    <string name="RotateUpTransformer">RotateUpTransformer</string>
+    <!--<string name="StackTransformer">StackTransformer</string>-->
+    <string name="StackTransformer">覆盖</string>
+    <string name="TabletTransformer">TabletTransformer</string>
+    <string name="ZoomInTransformer">ZoomInTransformer</string>
+    <string name="ZoomOutSlideTransformer">ZoomOutSlideTransformer</string>
+    <string name="ZoomOutTransformer">ZoomOutTransformer</string>
+
+</resources>
