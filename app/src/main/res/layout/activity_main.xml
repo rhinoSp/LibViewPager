@@ -17,19 +17,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <com.rhino.viewpager.view.AutoScrollViewPager
+                <com.rhino.viewpager.view.ScrollAbleViewPager
                     android:id="@+id/view_pager1"
                     android:layout_width="match_parent"
-                    android:layout_height="300dp" />
+                    android:layout_height="300dp"
+                    android:overScrollMode="never" />
 
                 <com.rhino.viewpager.view.CircleIndicator
                     android:id="@+id/circle_indicator"
                     android:layout_width="match_parent"
                     android:layout_height="20dp"
-                    android:layout_marginTop="140dp"
+                    android:layout_marginTop="260dp"
                     android:clickable="false"
-                    app:ci_count="5"
                     android:visibility="invisible"
+                    app:ci_count="5"
                     app:ci_margin="8dp"
                     app:ci_mode="outside"
                     app:ci_normalColor="#444444"
@@ -51,134 +52,13 @@
                     android:orientation="vertical">
 
                     <Button
-                        android:id="@+id/AccordionTransformer"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:visibility="gone"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:background="@drawable/selector_rect_nor_sol_black50_pre_sol_black_sel_sol_black_cor50"
-                        android:text="@string/AccordionTransformer"
-                        android:textColor="@color/color_nor_33333_sel_ffffff" />
-
-                    <Button
-                        android:id="@+id/BackgroundToForegroundTransformer"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:visibility="gone"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginRight="10dp"
-                        android:background="@drawable/selector_rect_nor_sol_black50_pre_sol_black_sel_sol_black_cor50"
-                        android:text="@string/BackgroundToForegroundTransformer"
-                        android:textColor="@color/color_nor_33333_sel_ffffff" />
-
-                    <Button
-                        android:id="@+id/CubeInTransformer"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:visibility="gone"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginRight="10dp"
-                        android:background="@drawable/selector_rect_nor_sol_black50_pre_sol_black_sel_sol_black_cor50"
-                        android:text="@string/CubeInTransformer"
-                        android:textColor="@color/color_nor_33333_sel_ffffff" />
-
-                    <Button
-                        android:id="@+id/CubeOutTransformer"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginLeft="10dp"
-                        android:visibility="gone"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginRight="10dp"
-                        android:background="@drawable/selector_rect_nor_sol_black50_pre_sol_black_sel_sol_black_cor50"
-                        android:text="@string/CubeOutTransformer"
-                        android:textColor="@color/color_nor_33333_sel_ffffff" />
-
-                    <Button
                         android:id="@+id/DefaultTransformer"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginLeft="10dp"
-                        android:visibility="gone"
-                        android:layout_marginTop="5dp"
                         android:layout_marginRight="10dp"
                         android:background="@drawable/selector_rect_nor_sol_black50_pre_sol_black_sel_sol_black_cor50"
                         android:text="@string/DefaultTransformer"
-                        android:textColor="@color/color_nor_33333_sel_ffffff" />
-
-                    <Button
-                        android:id="@+id/DepthPageTransformer"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginLeft="10dp"
-                        android:visibility="gone"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginRight="10dp"
-                        android:background="@drawable/selector_rect_nor_sol_black50_pre_sol_black_sel_sol_black_cor50"
-                        android:text="@string/DepthPageTransformer"
-                        android:textColor="@color/color_nor_33333_sel_ffffff" />
-
-                    <Button
-                        android:id="@+id/FlipHorizontalTransformer"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginLeft="10dp"
-                        android:visibility="gone"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginRight="10dp"
-                        android:background="@drawable/selector_rect_nor_sol_black50_pre_sol_black_sel_sol_black_cor50"
-                        android:text="@string/FlipHorizontalTransformer"
-                        android:textColor="@color/color_nor_33333_sel_ffffff" />
-
-                    <Button
-                        android:id="@+id/FlipVerticalTransformer"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginLeft="10dp"
-                        android:visibility="gone"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginRight="10dp"
-                        android:background="@drawable/selector_rect_nor_sol_black50_pre_sol_black_sel_sol_black_cor50"
-                        android:text="@string/FlipVerticalTransformer"
-                        android:textColor="@color/color_nor_33333_sel_ffffff" />
-
-                    <Button
-                        android:id="@+id/ForegroundToBackgroundTransformer"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="5dp"
-                        android:visibility="gone"
-                        android:layout_marginRight="10dp"
-                        android:background="@drawable/selector_rect_nor_sol_black50_pre_sol_black_sel_sol_black_cor50"
-                        android:text="@string/ForegroundToBackgroundTransformer"
-                        android:textColor="@color/color_nor_33333_sel_ffffff" />
-
-                    <Button
-                        android:id="@+id/RotateDownTransformer"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="5dp"
-                        android:visibility="gone"
-                        android:layout_marginRight="10dp"
-                        android:background="@drawable/selector_rect_nor_sol_black50_pre_sol_black_sel_sol_black_cor50"
-                        android:text="@string/RotateDownTransformer"
-                        android:textColor="@color/color_nor_33333_sel_ffffff" />
-
-                    <Button
-                        android:id="@+id/RotateUpTransformer"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="5dp"
-                        android:visibility="gone"
-                        android:layout_marginRight="10dp"
-                        android:background="@drawable/selector_rect_nor_sol_black50_pre_sol_black_sel_sol_black_cor50"
-                        android:text="@string/RotateUpTransformer"
                         android:textColor="@color/color_nor_33333_sel_ffffff" />
 
                     <Button
@@ -193,16 +73,148 @@
                         android:textColor="@color/color_nor_33333_sel_ffffff" />
 
                     <Button
+                        android:id="@+id/VerticalPageTransformer"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/selector_rect_nor_sol_black50_pre_sol_black_sel_sol_black_cor50"
+                        android:text="@string/VerticalPageTransformer"
+                        android:textColor="@color/color_nor_33333_sel_ffffff"
+                        android:visibility="visible" />
+
+                    <Button
+                        android:id="@+id/AccordionTransformer"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/selector_rect_nor_sol_black50_pre_sol_black_sel_sol_black_cor50"
+                        android:text="@string/AccordionTransformer"
+                        android:textColor="@color/color_nor_33333_sel_ffffff"
+                        android:visibility="visible" />
+
+                    <Button
+                        android:id="@+id/BackgroundToForegroundTransformer"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/selector_rect_nor_sol_black50_pre_sol_black_sel_sol_black_cor50"
+                        android:text="@string/BackgroundToForegroundTransformer"
+                        android:textColor="@color/color_nor_33333_sel_ffffff"
+                        android:visibility="visible" />
+
+                    <Button
+                        android:id="@+id/CubeInTransformer"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/selector_rect_nor_sol_black50_pre_sol_black_sel_sol_black_cor50"
+                        android:text="@string/CubeInTransformer"
+                        android:textColor="@color/color_nor_33333_sel_ffffff"
+                        android:visibility="visible" />
+
+                    <Button
+                        android:id="@+id/CubeOutTransformer"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/selector_rect_nor_sol_black50_pre_sol_black_sel_sol_black_cor50"
+                        android:text="@string/CubeOutTransformer"
+                        android:textColor="@color/color_nor_33333_sel_ffffff"
+                        android:visibility="visible" />
+
+                    <Button
+                        android:id="@+id/DepthPageTransformer"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/selector_rect_nor_sol_black50_pre_sol_black_sel_sol_black_cor50"
+                        android:text="@string/DepthPageTransformer"
+                        android:textColor="@color/color_nor_33333_sel_ffffff"
+                        android:visibility="visible" />
+
+                    <Button
+                        android:id="@+id/FlipHorizontalTransformer"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/selector_rect_nor_sol_black50_pre_sol_black_sel_sol_black_cor50"
+                        android:text="@string/FlipHorizontalTransformer"
+                        android:textColor="@color/color_nor_33333_sel_ffffff"
+                        android:visibility="visible" />
+
+                    <Button
+                        android:id="@+id/FlipVerticalTransformer"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/selector_rect_nor_sol_black50_pre_sol_black_sel_sol_black_cor50"
+                        android:text="@string/FlipVerticalTransformer"
+                        android:textColor="@color/color_nor_33333_sel_ffffff"
+                        android:visibility="visible" />
+
+                    <Button
+                        android:id="@+id/ForegroundToBackgroundTransformer"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/selector_rect_nor_sol_black50_pre_sol_black_sel_sol_black_cor50"
+                        android:text="@string/ForegroundToBackgroundTransformer"
+                        android:textColor="@color/color_nor_33333_sel_ffffff"
+                        android:visibility="visible" />
+
+                    <Button
+                        android:id="@+id/RotateDownTransformer"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/selector_rect_nor_sol_black50_pre_sol_black_sel_sol_black_cor50"
+                        android:text="@string/RotateDownTransformer"
+                        android:textColor="@color/color_nor_33333_sel_ffffff"
+                        android:visibility="visible" />
+
+                    <Button
+                        android:id="@+id/RotateUpTransformer"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/selector_rect_nor_sol_black50_pre_sol_black_sel_sol_black_cor50"
+                        android:text="@string/RotateUpTransformer"
+                        android:textColor="@color/color_nor_33333_sel_ffffff"
+                        android:visibility="visible" />
+
+                    <Button
                         android:id="@+id/TabletTransformer"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginLeft="10dp"
-                        android:visibility="gone"
                         android:layout_marginTop="5dp"
                         android:layout_marginRight="10dp"
                         android:background="@drawable/selector_rect_nor_sol_black50_pre_sol_black_sel_sol_black_cor50"
                         android:text="@string/TabletTransformer"
-                        android:textColor="@color/color_nor_33333_sel_ffffff" />
+                        android:textColor="@color/color_nor_33333_sel_ffffff"
+                        android:visibility="visible" />
 
                     <Button
                         android:id="@+id/ZoomInTransformer"
@@ -210,11 +222,11 @@
                         android:layout_height="40dp"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="5dp"
-                        android:visibility="gone"
                         android:layout_marginRight="10dp"
                         android:background="@drawable/selector_rect_nor_sol_black50_pre_sol_black_sel_sol_black_cor50"
                         android:text="@string/ZoomInTransformer"
-                        android:textColor="@color/color_nor_33333_sel_ffffff" />
+                        android:textColor="@color/color_nor_33333_sel_ffffff"
+                        android:visibility="visible" />
 
                     <Button
                         android:id="@+id/ZoomOutSlideTransformer"
@@ -222,11 +234,11 @@
                         android:layout_height="40dp"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="5dp"
-                        android:visibility="gone"
                         android:layout_marginRight="10dp"
                         android:background="@drawable/selector_rect_nor_sol_black50_pre_sol_black_sel_sol_black_cor50"
                         android:text="@string/AccordionTransformer"
-                        android:textColor="@color/color_nor_33333_sel_ffffff" />
+                        android:textColor="@color/color_nor_33333_sel_ffffff"
+                        android:visibility="visible" />
 
                     <Button
                         android:id="@+id/ZoomOutTransformer"
@@ -234,11 +246,12 @@
                         android:layout_height="40dp"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="5dp"
-                        android:visibility="gone"
                         android:layout_marginRight="10dp"
                         android:background="@drawable/selector_rect_nor_sol_black50_pre_sol_black_sel_sol_black_cor50"
                         android:text="@string/ZoomOutTransformer"
-                        android:textColor="@color/color_nor_33333_sel_ffffff" />
+                        android:textColor="@color/color_nor_33333_sel_ffffff"
+                        android:visibility="visible" />
+
                 </LinearLayout>
             </ScrollView>
         </LinearLayout>

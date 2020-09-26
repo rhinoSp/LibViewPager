@@ -63,6 +63,17 @@ public class SimplePageAdapter extends RecyclingPagerAdapter {
         return null != dataList ? dataList.size() : 0;
     }
 
+    public int getRealCount() {
+        return dataList.size();
+    }
+
+    public int getRealPosition(int position) {
+        if (dataList != null) {
+            return position % dataList.size();
+        }
+        return position;
+    }
+
     @Override
     public int getItemPosition(Object object) {
         return POSITION_NONE;

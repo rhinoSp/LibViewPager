@@ -6,9 +6,12 @@ import com.rhino.viewpager.demo.databinding.VpagerItemBannerBinding;
 
 public class ViewPagerItemBanner extends BaseViewPagerHolderData<VpagerItemBannerBinding> {
 
+    private String title = "1";
     private String content = "内容内容";
 
-    public ViewPagerItemBanner() {
+    public ViewPagerItemBanner(String title, String content) {
+        this.title = title;
+        this.content = content;
     }
 
     @Override
@@ -18,6 +21,7 @@ public class ViewPagerItemBanner extends BaseViewPagerHolderData<VpagerItemBanne
 
     @Override
     public void bindView(VpagerItemBannerBinding dataBinding, int position) {
+        dataBinding.tvTitle.setText(title);
         dataBinding.tvContent.setText(content);
     }
 
