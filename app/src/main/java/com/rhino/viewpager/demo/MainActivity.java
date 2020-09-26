@@ -266,6 +266,7 @@ public class MainActivity extends AppCompatActivity {
             selectButton.setSelected(false);
         }
         if (button == dataBinding.SimulationTransformer) {
+            dataBinding.viewPager1.setScrollable(false);
             dataBinding.bookPageWidget.setVisibility(View.VISIBLE);
             int currentItem = dataBinding.viewPager1.getCurrentItem();
             if (currentItem < 0 || currentItem >= itemList1.size() - 1) {
@@ -276,6 +277,7 @@ public class MainActivity extends AppCompatActivity {
                 loadBitmapFromView(dataBinding.bookPageWidget.getNextPage(), itemList1.get(currentItem + 1).getRootView());
             }
         } else {
+            dataBinding.viewPager1.setScrollable(true);
             dataBinding.bookPageWidget.setVisibility(View.INVISIBLE);
         }
         selectButton = button;

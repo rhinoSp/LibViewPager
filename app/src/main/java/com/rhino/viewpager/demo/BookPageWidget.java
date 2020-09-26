@@ -3,6 +3,7 @@ package com.rhino.viewpager.demo;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Matrix;
@@ -34,55 +35,51 @@ public class BookPageWidget extends View {
      * view的高度
      **/
     private int mViewHeight;
-    
-    private Context mContext;
 
     private int mCornerX = 1; // 拖拽点对应的页脚
     private int mCornerY = 1;
     private Path mPath0;
     private Path mPath1;
-    Bitmap mCurPageBitmap = null; // 当前页
-    Bitmap mNextPageBitmap = null;
+    // 适配 android 高版本无法使用 XOR 的问题
+    private Path mXORPath;
 
-    PointF mTouch = new PointF(); // 拖拽点
-    PointF mBezierStart1 = new PointF(); // 贝塞尔曲线起始点
-    PointF mBezierControl1 = new PointF(); // 贝塞尔曲线控制点
-    PointF mBeziervertex1 = new PointF(); // 贝塞尔曲线顶点
-    PointF mBezierEnd1 = new PointF(); // 贝塞尔曲线结束点
+    private Bitmap mCurPageBitmap = null; // 当前页
+    private Bitmap mNextPageBitmap = null;
 
-    PointF mBezierStart2 = new PointF(); // 另一条贝塞尔曲线
-    PointF mBezierControl2 = new PointF();
-    PointF mBeziervertex2 = new PointF();
-    PointF mBezierEnd2 = new PointF();
+    private PointF mTouch = new PointF(); // 拖拽点
+    private PointF mBezierStart1 = new PointF(); // 贝塞尔曲线起始点
+    private PointF mBezierControl1 = new PointF(); // 贝塞尔曲线控制点
+    private PointF mBeziervertex1 = new PointF(); // 贝塞尔曲线顶点
+    private PointF mBezierEnd1 = new PointF(); // 贝塞尔曲线结束点
+
+    private PointF mBezierStart2 = new PointF(); // 另一条贝塞尔曲线
+    private PointF mBezierControl2 = new PointF();
+    private PointF mBeziervertex2 = new PointF();
+    private PointF mBezierEnd2 = new PointF();
 
     float mMiddleX;
     float mMiddleY;
     float mDegrees;
     float mTouchToCornerDis;
-    ColorMatrixColorFilter mColorMatrixFilter;
-    Matrix mMatrix;
+    private ColorMatrixColorFilter mColorMatrixFilter;
+    private Matrix mMatrix;
     float[] mMatrixArray = {0, 0, 0, 0, 0, 0, 0, 0, 1.0f};
 
     boolean mIsRTandLB; // 是否属于右上左下
     private float mMaxLength;
-    int[] mBackShadowColors;// 背面颜色组
-    int[] mFrontShadowColors;// 前面颜色组
-    GradientDrawable mBackShadowDrawableLR; // 有阴影的GradientDrawable
-    GradientDrawable mBackShadowDrawableRL;
-    GradientDrawable mFolderShadowDrawableLR;
-    GradientDrawable mFolderShadowDrawableRL;
+    private GradientDrawable mBackShadowDrawableLR; // 有阴影的GradientDrawable
+    private GradientDrawable mBackShadowDrawableRL;
+    private GradientDrawable mFolderShadowDrawableLR;
+    private GradientDrawable mFolderShadowDrawableRL;
 
-    GradientDrawable mFrontShadowDrawableHBT;
-    GradientDrawable mFrontShadowDrawableHTB;
-    GradientDrawable mFrontShadowDrawableVLR;
-    GradientDrawable mFrontShadowDrawableVRL;
+    private GradientDrawable mFrontShadowDrawableHBT;
+    private GradientDrawable mFrontShadowDrawableHTB;
+    private GradientDrawable mFrontShadowDrawableVLR;
+    private GradientDrawable mFrontShadowDrawableVRL;
 
-    Paint mPaint;
-    Scroller mScroller;
+    private Paint mPaint;
+    private Scroller mScroller;
 
-    private int mBgColor = 0xFFCEC29C;
-
-    private float actiondownX, actiondownY;
     private TouchListener mTouchListener;
 
     public BookPageWidget(Context context) {
@@ -95,10 +92,9 @@ public class BookPageWidget extends View {
 
     public BookPageWidget(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        mContext = context;
-
         mPath0 = new Path();
         mPath1 = new Path();
+        mXORPath = new Path();
         mMaxLength = (float) Math.hypot(mViewWidth, mViewHeight);
         mPaint = new Paint();
         mPaint.setStyle(Paint.Style.FILL);
@@ -107,10 +103,6 @@ public class BookPageWidget extends View {
         createDrawable();
 
         ColorMatrix cm = new ColorMatrix();//设置颜色数组
-//        float array[] = { 0.55f, 0, 0, 0, 80.0f,
-//                           0, 0.55f, 0, 0, 80.0f,
-//                           0, 0,0.55f, 0, 80.0f,
-//                           0, 0, 0, 0.2f, 0 };
         float array[] = {1, 0, 0, 0, 0,
                 0, 1, 0, 0, 0,
                 0, 0, 1, 0, 0,
@@ -143,7 +135,6 @@ public class BookPageWidget extends View {
         } else {
             mViewHeight = getHeight();
         }
-
         setMeasuredDimension(mViewWidth, mViewHeight);
         initView(mViewWidth, mViewHeight);
     }
@@ -176,10 +167,6 @@ public class BookPageWidget extends View {
         postInvalidate();
     }
 
-    public void setBgColor(int color) {
-        mBgColor = color;
-    }
-
     /**
      * 创建阴影的GradientDrawable
      */
@@ -195,7 +182,8 @@ public class BookPageWidget extends View {
         mFolderShadowDrawableLR
                 .setGradientType(GradientDrawable.LINEAR_GRADIENT);
 
-        mBackShadowColors = new int[]{0xff111111, 0x111111};
+        // 背面颜色组
+        int[] mBackShadowColors = new int[]{0xff111111, 0x111111};
         mBackShadowDrawableRL = new GradientDrawable(
                 GradientDrawable.Orientation.RIGHT_LEFT, mBackShadowColors);
         mBackShadowDrawableRL.setGradientType(GradientDrawable.LINEAR_GRADIENT);
@@ -204,7 +192,8 @@ public class BookPageWidget extends View {
                 GradientDrawable.Orientation.LEFT_RIGHT, mBackShadowColors);
         mBackShadowDrawableLR.setGradientType(GradientDrawable.LINEAR_GRADIENT);
 
-        mFrontShadowColors = new int[]{0x80111111, 0x111111};
+        // 前面颜色组
+        int[] mFrontShadowColors = new int[]{0x80111111, 0x111111};
         mFrontShadowDrawableVLR = new GradientDrawable(
                 GradientDrawable.Orientation.LEFT_RIGHT, mFrontShadowColors);
         mFrontShadowDrawableVLR
@@ -227,29 +216,38 @@ public class BookPageWidget extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-//        canvas.drawColor(0xFFAAAAAA);
-        canvas.drawColor(mBgColor);
-        Log.e("onDraw", "isNext:" + isNext + "          isRuning:" + isRuning);
         if (isRuning) {
-            if (isNext) {
-                calcPoints();
-                drawCurrentPageArea(canvas, mCurPageBitmap, mPath0);
-                drawNextPageAreaAndShadow(canvas, mNextPageBitmap);
-                drawCurrentPageShadow(canvas);
-                drawCurrentBackArea(canvas, mCurPageBitmap);
-            } else {
-                calcPoints();
-                drawCurrentPageArea(canvas, mNextPageBitmap, mPath0);
-                drawNextPageAreaAndShadow(canvas, mCurPageBitmap);
-                drawCurrentPageShadow(canvas);
-                drawCurrentBackArea(canvas, mNextPageBitmap);
-            }
+            drawMove(canvas);
         } else {
-            if (cancelPage) {
-                canvas.drawBitmap(mCurPageBitmap, 0, 0, null);
-            } else {
-                canvas.drawBitmap(mNextPageBitmap, 0, 0, null);
+            if (cancelPage){
+                mNextPageBitmap = mCurPageBitmap.copy(Bitmap.Config.RGB_565, true);
             }
+            drawStatic(canvas);
+        }
+    }
+
+    private void drawStatic(Canvas canvas){
+        if (cancelPage) {
+            mNextPageBitmap = mCurPageBitmap.copy(Bitmap.Config.RGB_565, true);
+            canvas.drawBitmap(mCurPageBitmap, 0, 0, null);
+        } else {
+            canvas.drawBitmap(mNextPageBitmap, 0, 0, null);
+        }
+    }
+
+    private void drawMove(Canvas canvas){
+        if (isNext) {
+            calcPoints();
+            drawCurrentPageArea(canvas, mCurPageBitmap, mPath0);
+            drawNextPageAreaAndShadow(canvas, mNextPageBitmap);
+            drawCurrentPageShadow(canvas);
+            drawCurrentBackArea(canvas, mCurPageBitmap);
+        } else {
+            calcPoints();
+            drawCurrentPageArea(canvas, mNextPageBitmap, mPath0);
+            drawNextPageAreaAndShadow(canvas, mCurPageBitmap);
+            drawCurrentPageShadow(canvas);
+            drawCurrentBackArea(canvas, mNextPageBitmap);
         }
     }
 
@@ -513,38 +511,8 @@ public class BookPageWidget extends View {
         return false;
     }
 
-    /**
-     * 是否从左边翻向右边
-     *
-     * @return
-     */
-    public String DragToRight() {
-        // if (mCornerX > 0)
-        //     return false;
-        //   return true;
-
-        if (actiondownX > mViewWidth / 3.0 && actiondownX < (mViewWidth * 2.0 / 3.0)) {
-            Log.d("PageWidget", "是否进入此语句");
-            return "popview";
-
-        } else if (actiondownX < mViewWidth / 3.0) {
-
-            Log.d("PageWidget", "mViewWidth / 3.0=" + mViewWidth / 3.0);
-            return "right";
-
-        } else if (actiondownX > mViewWidth * 2.0 / 3) {
-
-            return "left";
-        }
-
-        return null;
-    }
-
-
     public boolean right() {
-        if (mCornerX > -4)
-            return false;
-        return true;
+        return mCornerX <= -4;
     }
 
     /**
@@ -581,16 +549,20 @@ public class BookPageWidget extends View {
         canvas.save();
         try {
             canvas.clipPath(mPath0);
-            if (Build.VERSION.SDK_INT >= 26) {
-                canvas.clipPath(mPath1);
-            } else {
-                canvas.clipPath(mPath1, Region.Op.INTERSECT);
-            }
+            canvas.clipPath(mPath1, Region.Op.INTERSECT);
         } catch (Exception e) {
         }
 
-
         mPaint.setColorFilter(mColorMatrixFilter);
+        //对Bitmap进行取色
+        int color = bitmap.getPixel(1, 1);
+        //获取对应的三色
+        int red = (color & 0xff0000) >> 16;
+        int green = (color & 0x00ff00) >> 8;
+        int blue = (color & 0x0000ff);
+        //转换成含有透明度的颜色
+        int tempColor = Color.argb(200, red, green, blue);
+
 
         float dis = (float) Math.hypot(mCornerX - mBezierControl1.x,
                 mBezierControl2.y - mCornerY);
@@ -605,7 +577,9 @@ public class BookPageWidget extends View {
         mMatrix.preTranslate(-mBezierControl1.x, -mBezierControl1.y);
         mMatrix.postTranslate(mBezierControl1.x, mBezierControl1.y);
         canvas.drawBitmap(bitmap, mMatrix, mPaint);
-        // canvas.drawBitmap(bitmap, mMatrix, null);
+        //背景叠加
+        canvas.drawColor(tempColor);
+
         mPaint.setColorFilter(null);
 
         canvas.rotate(mDegrees, mBezierStart1.x, mBezierStart1.y);
@@ -652,13 +626,21 @@ public class BookPageWidget extends View {
         float rotateDegrees;
         canvas.save();
         try {
-            if (Build.VERSION.SDK_INT >= 26) {
-                canvas.clipPath(mPath0);
-                canvas.clipPath(mPath1);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                mXORPath.reset();
+                mXORPath.moveTo(0f, 0f);
+                mXORPath.lineTo(canvas.getWidth(), 0f);
+                mXORPath.lineTo(canvas.getWidth(), canvas.getHeight());
+                mXORPath.lineTo(0f, canvas.getHeight());
+                mXORPath.close();
+
+                // 取 path 的补集，作为 canvas 的交集
+                mXORPath.op(mPath0, Path.Op.XOR);
+                canvas.clipPath(mXORPath);
             } else {
                 canvas.clipPath(mPath0, Region.Op.XOR);
-                canvas.clipPath(mPath1, Region.Op.INTERSECT);
             }
+            canvas.clipPath(mPath1, Region.Op.INTERSECT);
         } catch (Exception e) {
             // TODO: handle exception
         }
@@ -693,13 +675,21 @@ public class BookPageWidget extends View {
         mPath1.close();
         canvas.save();
         try {
-            if (Build.VERSION.SDK_INT >= 26) {
-                canvas.clipPath(mPath0);
-                canvas.clipPath(mPath1);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                mXORPath.reset();
+                mXORPath.moveTo(0f, 0f);
+                mXORPath.lineTo(canvas.getWidth(), 0f);
+                mXORPath.lineTo(canvas.getWidth(), canvas.getHeight());
+                mXORPath.lineTo(0f, canvas.getHeight());
+                mXORPath.close();
+
+                // 取 path 的补给，作为 canvas 的交集
+                mXORPath.op(mPath0, Path.Op.XOR);
+                canvas.clipPath(mXORPath);
             } else {
                 canvas.clipPath(mPath0, Region.Op.XOR);
-                canvas.clipPath(mPath1, Region.Op.INTERSECT);
             }
+            canvas.clipPath(mPath1, Region.Op.INTERSECT);
         } catch (Exception e) {
         }
 
@@ -732,8 +722,6 @@ public class BookPageWidget extends View {
                     (int) (mBezierControl2.x - mMaxLength), leftx,
                     (int) (mBezierControl2.x), rightx);
 
-        // Log.i("hmg", "mBezierControl2.x   " + mBezierControl2.x
-        // + "  mBezierControl2.y  " + mBezierControl2.y);
         mCurrentPageShadow.draw(canvas);
         canvas.restore();
     }
@@ -794,8 +782,18 @@ public class BookPageWidget extends View {
         mPath0.close();
 
         canvas.save();
-        if (Build.VERSION.SDK_INT >= 26) {
-            canvas.clipPath(path);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            mXORPath.reset();
+            mXORPath.moveTo(0f, 0f);
+            mXORPath.lineTo(canvas.getWidth(), 0f);
+            mXORPath.lineTo(canvas.getWidth(), canvas.getHeight());
+            mXORPath.lineTo(0f, canvas.getHeight());
+            mXORPath.close();
+
+            // 取 path 的补给，作为 canvas 的交集
+            mXORPath.op(path, Path.Op.XOR);
+            canvas.clipPath(mXORPath);
         } else {
             canvas.clipPath(path, Region.Op.XOR);
         }
@@ -805,7 +803,6 @@ public class BookPageWidget extends View {
         } catch (Exception e) {
 
         }
-
     }
 
     /**
@@ -843,26 +840,15 @@ public class BookPageWidget extends View {
                 * (mCornerY - mMiddleY) / (mCornerX - mMiddleX);
         mBezierControl1.y = mCornerY;
         mBezierControl2.x = mCornerX;
-        //   mBezierControl2.y = mMiddleY - (mCornerX - mMiddleX)
-        //   * (mCornerX - mMiddleX) / (mCornerY - mMiddleY);
 
         float f4 = mCornerY - mMiddleY;
         if (f4 == 0) {
             mBezierControl2.y = mMiddleY - (mCornerX - mMiddleX)
                     * (mCornerX - mMiddleX) / 0.1f;
-            //    Log.d("PageWidget",""+f4);
         } else {
             mBezierControl2.y = mMiddleY - (mCornerX - mMiddleX)
                     * (mCornerX - mMiddleX) / (mCornerY - mMiddleY);
-            //    Log.d("PageWidget","没有进入if判断"+ mBezierControl2.y + "");
         }
-
-        // Log.i("hmg", "mTouchX  " + mTouch.x + "  mTouchY  " + mTouch.y);
-        // Log.i("hmg", "mBezierControl1.x  " + mBezierControl1.x
-        // + "  mBezierControl1.y  " + mBezierControl1.y);
-        // Log.i("hmg", "mBezierControl2.x  " + mBezierControl2.x
-        // + "  mBezierControl2.y  " + mBezierControl2.y);
-
         mBezierStart1.x = mBezierControl1.x - (mCornerX - mBezierControl1.x)
                 / 2;
         mBezierStart1.y = mCornerY;
@@ -890,8 +876,6 @@ public class BookPageWidget extends View {
                 mBezierControl1.y = mCornerY;
 
                 mBezierControl2.x = mCornerX;
-                //    mBezierControl2.y = mMiddleY - (mCornerX - mMiddleX)
-                //  * (mCornerX - mMiddleX) / (mCornerY - mMiddleY);
 
                 float f5 = mCornerY - mMiddleY;
                 if (f5 == 0) {
@@ -900,16 +884,8 @@ public class BookPageWidget extends View {
                 } else {
                     mBezierControl2.y = mMiddleY - (mCornerX - mMiddleX)
                             * (mCornerX - mMiddleX) / (mCornerY - mMiddleY);
-                    //    Log.d("PageWidget", mBezierControl2.y + "");
                 }
 
-
-                // Log.i("hmg", "mTouchX --> " + mTouch.x + "  mTouchY-->  "
-                // + mTouch.y);
-                // Log.i("hmg", "mBezierControl1.x--  " + mBezierControl1.x
-                // + "  mBezierControl1.y -- " + mBezierControl1.y);
-                // Log.i("hmg", "mBezierControl2.x -- " + mBezierControl2.x
-                // + "  mBezierControl2.y -- " + mBezierControl2.y);
                 mBezierStart1.x = mBezierControl1.x
                         - (mCornerX - mBezierControl1.x) / 2;
             }
@@ -926,16 +902,6 @@ public class BookPageWidget extends View {
         mBezierEnd2 = getCross(mTouch, mBezierControl2, mBezierStart1,
                 mBezierStart2);
 
-        // Log.i("hmg", "mBezierEnd1.x  " + mBezierEnd1.x + "  mBezierEnd1.y  "
-        // + mBezierEnd1.y);
-        // Log.i("hmg", "mBezierEnd2.x  " + mBezierEnd2.x + "  mBezierEnd2.y  "
-        // + mBezierEnd2.y);
-
-        /*
-         * mBeziervertex1.x 推导
-         * ((mBezierStart1.x+mBezierEnd1.x)/2+mBezierControl1.x)/2 化简等价于
-         * (mBezierStart1.x+ 2*mBezierControl1.x+mBezierEnd1.x) / 4
-         */
         mBeziervertex1.x = (mBezierStart1.x + 2 * mBezierControl1.x + mBezierEnd1.x) / 4;
         mBeziervertex1.y = (2 * mBezierControl1.y + mBezierStart1.y + mBezierEnd1.y) / 4;
         mBeziervertex2.x = (mBezierStart2.x + 2 * mBezierControl2.x + mBezierEnd2.x) / 4;
