@@ -2,6 +2,9 @@
     <string name="app_name">LibViewPager</string>
 
 
+    <string name="SimulationTransformer">仿真</string>
+<!--    <string name="SimulationTransformer">SimulationTransformer</string>-->
+    <!--    <string name="DefaultTransformer">DefaultTransformer</string>-->
     <string name="DefaultTransformer">平滑</string>
     <!--    <string name="DefaultTransformer">DefaultTransformer</string>-->
     <string name="StackTransformer">覆盖</string>

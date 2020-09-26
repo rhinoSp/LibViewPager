@@ -1,10 +1,13 @@
 package com.rhino.viewpager.demo;
 
 import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -23,7 +26,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding dataBinding;
-    public List<BaseHolderData> itemList1 = new ArrayList<>();
+    public List<ViewPagerItemBanner> itemList1 = new ArrayList<>();
     private ScrollAbleViewPager viewPager1;
     private SimplePageAdapter adapter1;
 
@@ -67,6 +70,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int i) {
                 dataBinding.circleIndicator.setPosition(adapter1.getRealPosition(i));
+                int currentItem = dataBinding.viewPager1.getCurrentItem();
+                if (currentItem < 0 || currentItem >= itemList1.size() - 1) {
+                    return;
+                }
+                if (dataBinding.bookPageWidget.getVisibility() == View.VISIBLE) {
+                    loadBitmapFromView(dataBinding.bookPageWidget.getCurPage(), itemList1.get(currentItem).getRootView());
+                    loadBitmapFromView(dataBinding.bookPageWidget.getNextPage(), itemList1.get(currentItem + 1).getRootView());
+                }
             }
 
             @Override
@@ -74,13 +85,78 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         addPageTransformerChangeListener();
+
+
+        dataBinding.bookPageWidget.setTouchListener(new BookPageWidget.TouchListener() {
+            @Override
+            public void center() {
+
+            }
+
+            @Override
+            public Boolean prePage() {
+                Log.d("xxx", "prePage");
+                int currentItem = dataBinding.viewPager1.getCurrentItem();
+                if (currentItem <= 0 || currentItem > itemList1.size()) {
+                    return false;
+                }
+                loadBitmapFromView(dataBinding.bookPageWidget.getCurPage(), itemList1.get(currentItem).getRootView());
+                loadBitmapFromView(dataBinding.bookPageWidget.getNextPage(), itemList1.get(currentItem - 1).getRootView());
+                dataBinding.viewPager1.setCurrentItem(currentItem - 1, false);
+                pre = true;
+                return true;
+            }
+
+            @Override
+            public Boolean nextPage() {
+                Log.d("xxx", "nextPage");
+                int currentItem = dataBinding.viewPager1.getCurrentItem();
+                if (currentItem < 0 || currentItem >= itemList1.size() - 1) {
+                    return false;
+                }
+                loadBitmapFromView(dataBinding.bookPageWidget.getCurPage(), itemList1.get(currentItem).getRootView());
+                loadBitmapFromView(dataBinding.bookPageWidget.getNextPage(), itemList1.get(currentItem + 1).getRootView());
+                dataBinding.viewPager1.setCurrentItem(currentItem + 1, false);
+
+                pre = false;
+                return true;
+            }
+
+            @Override
+            public void cancel() {
+                Log.d("xxx", "cancel");
+                dataBinding.bookPageWidget.changePage();
+                int currentItem = dataBinding.viewPager1.getCurrentItem();
+                dataBinding.viewPager1.setCurrentItem(pre ? currentItem + 1 : currentItem - 1, false);
+            }
+        });
+    }
+
+    private boolean pre;
+
+    private void loadBitmapFromView(Bitmap bitmap, View view) {
+        if (bitmap == null || view == null) {
+            Log.d("xxx", "bitmap = " + bitmap + ", view = " + view);
+            return;
+        }
+        int w = view.getWidth();
+        int h = view.getHeight();
+        Canvas canvas = new Canvas(bitmap);
+        view.layout(0, 0, w, h);
+        view.draw(canvas);
     }
 
     /**
      * 滑动动画
      */
     private void addPageTransformerChangeListener() {
-        select(dataBinding.DefaultTransformer, new DefaultTransformer());
+//        select(dataBinding.DefaultTransformer, new DefaultTransformer());
+        dataBinding.SimulationTransformer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                select((Button) v, null);
+            }
+        });
         dataBinding.DefaultTransformer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -188,6 +264,19 @@ public class MainActivity extends AppCompatActivity {
     private void select(Button button, @Nullable ViewPager.PageTransformer transformer) {
         if (selectButton != null) {
             selectButton.setSelected(false);
+        }
+        if (button == dataBinding.SimulationTransformer) {
+            dataBinding.bookPageWidget.setVisibility(View.VISIBLE);
+            int currentItem = dataBinding.viewPager1.getCurrentItem();
+            if (currentItem < 0 || currentItem >= itemList1.size() - 1) {
+                return;
+            }
+            if (dataBinding.bookPageWidget.getVisibility() == View.VISIBLE) {
+                loadBitmapFromView(dataBinding.bookPageWidget.getCurPage(), itemList1.get(currentItem).getRootView());
+                loadBitmapFromView(dataBinding.bookPageWidget.getNextPage(), itemList1.get(currentItem + 1).getRootView());
+            }
+        } else {
+            dataBinding.bookPageWidget.setVisibility(View.INVISIBLE);
         }
         selectButton = button;
         selectButton.setSelected(true);
