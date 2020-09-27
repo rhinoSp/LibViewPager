@@ -2,45 +2,28 @@
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@drawable/theme_leather_bg"
         android:orientation="vertical">
 
-        <RelativeLayout
-            android:id="@+id/ll_container"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:background="@drawable/theme_leather_bg"
-            android:orientation="vertical">
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:text="标题"
+            android:textColor="#FFFF0000"
+            android:textSize="25sp" />
 
-            <ImageView
-                android:id="@+id/iv_banner"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:visibility="gone"
-                android:src="@mipmap/img_coin" />
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:text="内容内容内容内容"
+            android:textColor="#FFFFFF00"
+            android:textSize="20sp" />
 
-            <TextView
-                android:id="@+id/tv_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:layout_alignParentRight="true"
-                android:text="标题"
-                android:textColor="#FFFF0000"
-                android:textSize="25sp" />
-
-            <TextView
-                android:id="@+id/tv_content"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="60dp"
-                android:text="内容内容内容内容"
-                android:textColor="#FFFFFF00"
-                android:textSize="20sp" />
-
-        </RelativeLayout>
     </LinearLayout>
 </layout>

@@ -23,6 +23,7 @@ public class ScrollAbleViewPager extends ViewPager {
 
     private Orientation orientation = Orientation.HORIZONTAL;
     private boolean scrollable = true;
+    private PageTransformer pageTransformer;
 
     public ScrollAbleViewPager(Context context) {
         super(context);
@@ -52,6 +53,7 @@ public class ScrollAbleViewPager extends ViewPager {
 
     @Override
     public void setPageTransformer(boolean reverseDrawingOrder, @Nullable PageTransformer transformer) {
+        this.pageTransformer = transformer;
         super.setPageTransformer(reverseDrawingOrder, transformer);
         if (transformer instanceof VerticalPageTransformer
                 || transformer instanceof FlipVerticalTransformer) {
@@ -63,6 +65,7 @@ public class ScrollAbleViewPager extends ViewPager {
 
     @Override
     public void setPageTransformer(boolean reverseDrawingOrder, @Nullable PageTransformer transformer, int pageLayerType) {
+        this.pageTransformer = transformer;
         super.setPageTransformer(reverseDrawingOrder, transformer, pageLayerType);
         if (transformer instanceof VerticalPageTransformer
                 || transformer instanceof FlipVerticalTransformer) {
@@ -70,6 +73,10 @@ public class ScrollAbleViewPager extends ViewPager {
         } else {
             this.orientation = Orientation.HORIZONTAL;
         }
+    }
+
+    public PageTransformer getPageTransformer() {
+        return pageTransformer;
     }
 
     private MotionEvent checkSwapXY(MotionEvent ev) {

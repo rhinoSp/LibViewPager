@@ -1,4 +1,4 @@
-package com.rhino.viewpager.demo;
+package com.rhino.viewpager.transformers;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -81,6 +81,8 @@ public class BookPageWidget extends View {
     private Scroller mScroller;
 
     private TouchListener mTouchListener;
+    // 初始化参数
+    private int mBgColor = 0xFFCEC29C;
 
     public BookPageWidget(Context context) {
         this(context, null);
@@ -95,7 +97,6 @@ public class BookPageWidget extends View {
         mPath0 = new Path();
         mPath1 = new Path();
         mXORPath = new Path();
-        mMaxLength = (float) Math.hypot(mViewWidth, mViewHeight);
         mPaint = new Paint();
         mPaint.setStyle(Paint.Style.FILL);
 //        mPaint.setAlpha(150);
@@ -124,32 +125,57 @@ public class BookPageWidget extends View {
         int heightMode = MeasureSpec.getMode(heightMeasureSpec);
         int heightSize = MeasureSpec.getSize(heightMeasureSpec);
 
+        int width;
+        int height;
         if (widthMode == MeasureSpec.EXACTLY) {
-            mViewWidth = widthSize;
+            width = widthSize;
         } else {
-            mViewWidth = getWidth();
+            width = getWidth();
         }
 
         if (heightMode == MeasureSpec.EXACTLY) {
-            mViewHeight = heightSize;
+            height = heightSize;
         } else {
-            mViewHeight = getHeight();
+            height = getHeight();
         }
-        setMeasuredDimension(mViewWidth, mViewHeight);
-        initView(mViewWidth, mViewHeight);
+        setMeasuredDimension(width, height);
+        initView(width, height);
     }
 
     /**
      * 初始化视图
      **/
-    private void initView(int width, int height) {
+    public void initView(int width, int height) {
         if (0 >= width || 0 >= height) {
             return;
         }
+        mViewWidth = width;
+        mViewHeight = height;
+        mMaxLength = (float) Math.hypot(mViewWidth, mViewHeight);
         if (mCurPageBitmap == null || mNextPageBitmap == null) {
             mCurPageBitmap = Bitmap.createBitmap(mViewWidth, mViewHeight, Bitmap.Config.RGB_565);      //android:LargeHeap=true  use in  manifest application
             mNextPageBitmap = Bitmap.createBitmap(mViewWidth, mViewHeight, Bitmap.Config.RGB_565);
         }
+    }
+
+    private void loadBitmapFromView(Bitmap bitmap, View view) {
+        if (bitmap == null || view == null) {
+            Log.d("xxx", "bitmap = " + bitmap + ", view = " + view);
+            return;
+        }
+        int w = view.getWidth();
+        int h = view.getHeight();
+        Canvas canvas = new Canvas(bitmap);
+        view.layout(0, 0, w, h);
+        view.draw(canvas);
+    }
+
+    public void loadCurPageView(View view) {
+        loadBitmapFromView(mCurPageBitmap, view);
+    }
+
+    public void loadNextPageView(View view) {
+        loadBitmapFromView(mNextPageBitmap, view);
     }
 
     public Bitmap getCurPage() {
@@ -213,9 +239,14 @@ public class BookPageWidget extends View {
         mFrontShadowDrawableHBT
                 .setGradientType(GradientDrawable.LINEAR_GRADIENT);
     }
+    public void setBgColor(int color) {
+        mBgColor = color;
+    }
 
     @Override
     protected void onDraw(Canvas canvas) {
+        canvas.drawColor(mBgColor);
+        Log.d("xxx", "isRuning = " + isRuning + ", isNext = " + isNext);
         if (isRuning) {
             drawMove(canvas);
         } else {
@@ -485,9 +516,7 @@ public class BookPageWidget extends View {
         if (!mScroller.isFinished()) {
             mScroller.abortAnimation();
             mTouch.x = mScroller.getFinalX();
-            ;
             mTouch.y = mScroller.getFinalY();
-            ;
             postInvalidate();
         }
     }
@@ -752,11 +781,7 @@ public class BookPageWidget extends View {
         canvas.save();
         try {
             canvas.clipPath(mPath0);
-            if (Build.VERSION.SDK_INT >= 26) {
-                canvas.clipPath(mPath1);
-            } else {
-                canvas.clipPath(mPath1, Region.Op.INTERSECT);
-            }
+            canvas.clipPath(mPath1, Region.Op.INTERSECT);
         } catch (Exception e) {
         }
 

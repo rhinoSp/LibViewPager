@@ -20,28 +20,29 @@
                 <com.rhino.viewpager.view.ScrollAbleViewPager
                     android:id="@+id/view_pager1"
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
+                    android:layout_height="500dp"
                     android:overScrollMode="never" />
 
-                <com.rhino.viewpager.demo.BookPageWidget
+                <com.rhino.viewpager.transformers.BookPageWidget
                     android:id="@+id/book_page_widget"
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
+                    android:layout_height="500dp"
                     android:visibility="invisible" />
 
                 <com.rhino.viewpager.view.CircleIndicator
                     android:id="@+id/circle_indicator"
                     android:layout_width="match_parent"
                     android:layout_height="20dp"
-                    android:layout_marginTop="260dp"
+                    android:layout_alignBottom="@+id/book_page_widget"
+                    android:layout_marginBottom="10dp"
                     android:clickable="false"
-                    android:visibility="invisible"
                     app:ci_count="5"
                     app:ci_margin="8dp"
+                    android:visibility="gone"
                     app:ci_mode="outside"
                     app:ci_normalColor="#444444"
                     app:ci_orientation="horizontal"
-                    app:ci_radius="5dp"
+                    app:ci_radius="4dp"
                     app:ci_selectedColor="#ffe6454a" />
 
             </RelativeLayout>
@@ -58,13 +59,14 @@
                     android:orientation="vertical">
 
                     <Button
-                        android:id="@+id/SimulationTransformer"
+                        android:id="@+id/StackTransformer"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
                         android:layout_marginRight="10dp"
                         android:background="@drawable/selector_rect_nor_sol_black50_pre_sol_black_sel_sol_black_cor50"
-                        android:text="@string/SimulationTransformer"
+                        android:text="@string/StackTransformer"
                         android:textColor="@color/color_nor_33333_sel_ffffff" />
 
                     <Button
@@ -79,17 +81,6 @@
                         android:textColor="@color/color_nor_33333_sel_ffffff" />
 
                     <Button
-                        android:id="@+id/StackTransformer"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginRight="10dp"
-                        android:background="@drawable/selector_rect_nor_sol_black50_pre_sol_black_sel_sol_black_cor50"
-                        android:text="@string/StackTransformer"
-                        android:textColor="@color/color_nor_33333_sel_ffffff" />
-
-                    <Button
                         android:id="@+id/VerticalPageTransformer"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
@@ -98,8 +89,18 @@
                         android:layout_marginRight="10dp"
                         android:background="@drawable/selector_rect_nor_sol_black50_pre_sol_black_sel_sol_black_cor50"
                         android:text="@string/VerticalPageTransformer"
-                        android:textColor="@color/color_nor_33333_sel_ffffff"
-                        android:visibility="visible" />
+                        android:textColor="@color/color_nor_33333_sel_ffffff" />
+
+                    <Button
+                        android:id="@+id/SimulationTransformer"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/selector_rect_nor_sol_black50_pre_sol_black_sel_sol_black_cor50"
+                        android:text="@string/SimulationTransformer"
+                        android:textColor="@color/color_nor_33333_sel_ffffff" />
 
                     <Button
                         android:id="@+id/AccordionTransformer"
@@ -111,7 +112,7 @@
                         android:background="@drawable/selector_rect_nor_sol_black50_pre_sol_black_sel_sol_black_cor50"
                         android:text="@string/AccordionTransformer"
                         android:textColor="@color/color_nor_33333_sel_ffffff"
-                        android:visibility="visible" />
+                        android:visibility="gone" />
 
                     <Button
                         android:id="@+id/BackgroundToForegroundTransformer"
@@ -123,7 +124,7 @@
                         android:background="@drawable/selector_rect_nor_sol_black50_pre_sol_black_sel_sol_black_cor50"
                         android:text="@string/BackgroundToForegroundTransformer"
                         android:textColor="@color/color_nor_33333_sel_ffffff"
-                        android:visibility="visible" />
+                        android:visibility="gone" />
 
                     <Button
                         android:id="@+id/CubeInTransformer"
@@ -135,7 +136,7 @@
                         android:background="@drawable/selector_rect_nor_sol_black50_pre_sol_black_sel_sol_black_cor50"
                         android:text="@string/CubeInTransformer"
                         android:textColor="@color/color_nor_33333_sel_ffffff"
-                        android:visibility="visible" />
+                        android:visibility="gone" />
 
                     <Button
                         android:id="@+id/CubeOutTransformer"
@@ -147,7 +148,7 @@
                         android:background="@drawable/selector_rect_nor_sol_black50_pre_sol_black_sel_sol_black_cor50"
                         android:text="@string/CubeOutTransformer"
                         android:textColor="@color/color_nor_33333_sel_ffffff"
-                        android:visibility="visible" />
+                        android:visibility="gone" />
 
                     <Button
                         android:id="@+id/DepthPageTransformer"
@@ -159,7 +160,7 @@
                         android:background="@drawable/selector_rect_nor_sol_black50_pre_sol_black_sel_sol_black_cor50"
                         android:text="@string/DepthPageTransformer"
                         android:textColor="@color/color_nor_33333_sel_ffffff"
-                        android:visibility="visible" />
+                        android:visibility="gone" />
 
                     <Button
                         android:id="@+id/FlipHorizontalTransformer"
@@ -171,7 +172,7 @@
                         android:background="@drawable/selector_rect_nor_sol_black50_pre_sol_black_sel_sol_black_cor50"
                         android:text="@string/FlipHorizontalTransformer"
                         android:textColor="@color/color_nor_33333_sel_ffffff"
-                        android:visibility="visible" />
+                        android:visibility="gone" />
 
                     <Button
                         android:id="@+id/FlipVerticalTransformer"
@@ -183,7 +184,7 @@
                         android:background="@drawable/selector_rect_nor_sol_black50_pre_sol_black_sel_sol_black_cor50"
                         android:text="@string/FlipVerticalTransformer"
                         android:textColor="@color/color_nor_33333_sel_ffffff"
-                        android:visibility="visible" />
+                        android:visibility="gone" />
 
                     <Button
                         android:id="@+id/ForegroundToBackgroundTransformer"
@@ -195,7 +196,7 @@
                         android:background="@drawable/selector_rect_nor_sol_black50_pre_sol_black_sel_sol_black_cor50"
                         android:text="@string/ForegroundToBackgroundTransformer"
                         android:textColor="@color/color_nor_33333_sel_ffffff"
-                        android:visibility="visible" />
+                        android:visibility="gone" />
 
                     <Button
                         android:id="@+id/RotateDownTransformer"
@@ -207,7 +208,7 @@
                         android:background="@drawable/selector_rect_nor_sol_black50_pre_sol_black_sel_sol_black_cor50"
                         android:text="@string/RotateDownTransformer"
                         android:textColor="@color/color_nor_33333_sel_ffffff"
-                        android:visibility="visible" />
+                        android:visibility="gone" />
 
                     <Button
                         android:id="@+id/RotateUpTransformer"
@@ -219,7 +220,7 @@
                         android:background="@drawable/selector_rect_nor_sol_black50_pre_sol_black_sel_sol_black_cor50"
                         android:text="@string/RotateUpTransformer"
                         android:textColor="@color/color_nor_33333_sel_ffffff"
-                        android:visibility="visible" />
+                        android:visibility="gone" />
 
                     <Button
                         android:id="@+id/TabletTransformer"
@@ -231,7 +232,7 @@
                         android:background="@drawable/selector_rect_nor_sol_black50_pre_sol_black_sel_sol_black_cor50"
                         android:text="@string/TabletTransformer"
                         android:textColor="@color/color_nor_33333_sel_ffffff"
-                        android:visibility="visible" />
+                        android:visibility="gone" />
 
                     <Button
                         android:id="@+id/ZoomInTransformer"
@@ -243,7 +244,7 @@
                         android:background="@drawable/selector_rect_nor_sol_black50_pre_sol_black_sel_sol_black_cor50"
                         android:text="@string/ZoomInTransformer"
                         android:textColor="@color/color_nor_33333_sel_ffffff"
-                        android:visibility="visible" />
+                        android:visibility="gone" />
 
                     <Button
                         android:id="@+id/ZoomOutSlideTransformer"
@@ -255,7 +256,7 @@
                         android:background="@drawable/selector_rect_nor_sol_black50_pre_sol_black_sel_sol_black_cor50"
                         android:text="@string/AccordionTransformer"
                         android:textColor="@color/color_nor_33333_sel_ffffff"
-                        android:visibility="visible" />
+                        android:visibility="gone" />
 
                     <Button
                         android:id="@+id/ZoomOutTransformer"
@@ -267,7 +268,7 @@
                         android:background="@drawable/selector_rect_nor_sol_black50_pre_sol_black_sel_sol_black_cor50"
                         android:text="@string/ZoomOutTransformer"
                         android:textColor="@color/color_nor_33333_sel_ffffff"
-                        android:visibility="visible" />
+                        android:visibility="gone" />
 
                 </LinearLayout>
             </ScrollView>
