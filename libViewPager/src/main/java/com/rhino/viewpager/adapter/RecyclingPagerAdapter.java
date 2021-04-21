@@ -15,18 +15,10 @@ import com.rhino.viewpager.utils.RecyclingUtils;
  * view recycling.
  */
 public abstract class RecyclingPagerAdapter extends PagerAdapter {
-    static final int IGNORE_ITEM_VIEW_TYPE = AdapterView.ITEM_VIEW_TYPE_IGNORE;
+    public static final int IGNORE_ITEM_VIEW_TYPE = AdapterView.ITEM_VIEW_TYPE_IGNORE;
 
-    protected ViewPager viewPager;
-    protected final RecyclingUtils recyclingUtils;
-
-    public RecyclingPagerAdapter() {
-        this(null, new RecyclingUtils());
-    }
-
-    public RecyclingPagerAdapter(@Nullable ViewPager viewPager) {
-        this(viewPager, new RecyclingUtils());
-    }
+    public ViewPager viewPager;
+    public RecyclingUtils recyclingUtils;
 
     public RecyclingPagerAdapter(@Nullable ViewPager viewPager, RecyclingUtils recyclingUtils) {
         this.recyclingUtils = recyclingUtils;

@@ -10,6 +10,7 @@ import com.rhino.viewpager.factory.SimpleHolderFactory;
 import com.rhino.viewpager.base.BaseHolder;
 import com.rhino.viewpager.base.BaseHolderData;
 import com.rhino.viewpager.base.BaseHolderFactory;
+import com.rhino.viewpager.utils.RecyclingUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,19 +20,23 @@ import java.util.List;
  */
 public class SimplePageAdapter extends RecyclingPagerAdapter {
 
-    protected List<BaseHolderData> dataList = new ArrayList<>();
-    protected BaseHolderFactory holderFactory;
+    public List<BaseHolderData> dataList = new ArrayList<>();
+    public BaseHolderFactory holderFactory;
 
     public SimplePageAdapter() {
-        this(null, SimpleHolderFactory.create());
+        this(null, new RecyclingUtils(), SimpleHolderFactory.create());
     }
 
     public SimplePageAdapter(@Nullable ViewPager viewPager) {
-        this(viewPager, SimpleHolderFactory.create());
+        this(viewPager, new RecyclingUtils(), SimpleHolderFactory.create());
     }
 
-    public SimplePageAdapter(@Nullable ViewPager viewPager, BaseHolderFactory holderFactory) {
-        super(viewPager);
+    public SimplePageAdapter(@Nullable ViewPager viewPager, RecyclingUtils recyclingUtils) {
+        super(viewPager, recyclingUtils);
+    }
+
+    public SimplePageAdapter(@Nullable ViewPager viewPager, RecyclingUtils recyclingUtils, BaseHolderFactory holderFactory) {
+        super(viewPager, recyclingUtils);
         this.holderFactory = holderFactory;
     }
 

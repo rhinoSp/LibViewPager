@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.rhino.viewpager.adapter.LoopPageAdapter;
 import com.rhino.viewpager.adapter.SimplePageAdapter;
 import com.rhino.viewpager.transformers.*;
 import com.rhino.viewpager.view.CircleIndicator;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
+        new LoopPageAdapter(null, null);
         dataBinding.viewPager1.setOffscreenPageLimit(5);
         adapter1 = new SimplePageAdapter(dataBinding.viewPager1);
 
