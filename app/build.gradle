@@ -2,16 +2,16 @@ apply plugin: 'com.android.application'
 apply from: "pkg.gradle"
 
 android {
-    compileSdkVersion rootProject.android.compileSdkVersion
+    compileSdkVersion pkgCompileSdkVersion
     defaultConfig {
-        minSdkVersion rootProject.android.minSdkVersion
-        targetSdkVersion rootProject.android.targetSdkVersion
+        minSdkVersion pkgMinSdkVersion
+        targetSdkVersion pkgTargetSdkVersion
+
+        applicationId apkApplicationId
         versionCode apkVersionCode
         versionName apkVersionName
-        applicationId "com.rhino.viewpager.demo"
 
         multiDexEnabled true
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     signingConfigs {
         keystore {
@@ -42,19 +42,16 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    dataBinding {
-        enabled = true
+    buildFeatures {
+        dataBinding = true
     }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-
-    implementation rootProject.ext.dependencies["appcompat-v7"]
+    implementation rootProject.ext.appcompat
+    implementation rootProject.ext.material
+    implementation rootProject.ext.constraintlayout
 
     implementation project(path: ':libViewPager')
-//    implementation(name: 'com.rhino.viewpager-libViewPager-v1.0.1', ext: 'aar')
 }

@@ -1,6 +1,6 @@
 package com.rhino.viewpager.transformers;
 
-import android.support.v4.view.ViewPager.PageTransformer;
+import androidx.viewpager.widget.ViewPager.PageTransformer;
 import android.view.View;
 
 

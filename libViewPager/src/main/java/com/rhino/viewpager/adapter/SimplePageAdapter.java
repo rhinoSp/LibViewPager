@@ -1,15 +1,16 @@
 package com.rhino.viewpager.adapter;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.rhino.viewpager.factory.SimpleHolderFactory;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.viewpager.widget.ViewPager;
+
 import com.rhino.viewpager.base.BaseHolder;
 import com.rhino.viewpager.base.BaseHolderData;
 import com.rhino.viewpager.base.BaseHolderFactory;
+import com.rhino.viewpager.factory.SimpleHolderFactory;
 import com.rhino.viewpager.utils.RecyclingUtils;
 
 import java.util.ArrayList;
@@ -31,11 +32,11 @@ public class SimplePageAdapter extends RecyclingPagerAdapter {
         this(viewPager, new RecyclingUtils(), SimpleHolderFactory.create());
     }
 
-    public SimplePageAdapter(@Nullable ViewPager viewPager, RecyclingUtils recyclingUtils) {
+    public SimplePageAdapter(@Nullable ViewPager viewPager, @Nullable RecyclingUtils recyclingUtils) {
         super(viewPager, recyclingUtils);
     }
 
-    public SimplePageAdapter(@Nullable ViewPager viewPager, RecyclingUtils recyclingUtils, BaseHolderFactory holderFactory) {
+    public SimplePageAdapter(@Nullable ViewPager viewPager, @Nullable RecyclingUtils recyclingUtils, BaseHolderFactory holderFactory) {
         super(viewPager, recyclingUtils);
         this.holderFactory = holderFactory;
     }

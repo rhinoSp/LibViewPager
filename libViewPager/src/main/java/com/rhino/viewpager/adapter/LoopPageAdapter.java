@@ -1,9 +1,9 @@
 package com.rhino.viewpager.adapter;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import com.rhino.viewpager.base.BaseHolderData;
 import com.rhino.viewpager.base.BaseHolderFactory;
@@ -22,11 +22,11 @@ public class LoopPageAdapter extends SimplePageAdapter {
         super(viewPager);
     }
 
-    public LoopPageAdapter(@Nullable ViewPager viewPager, RecyclingUtils recyclingUtils) {
+    public LoopPageAdapter(@Nullable ViewPager viewPager, @Nullable RecyclingUtils recyclingUtils) {
         super(viewPager, recyclingUtils);
     }
 
-    public LoopPageAdapter(@Nullable ViewPager viewPager, RecyclingUtils recyclingUtils, BaseHolderFactory holderFactory) {
+    public LoopPageAdapter(@Nullable ViewPager viewPager, @Nullable RecyclingUtils recyclingUtils, BaseHolderFactory holderFactory) {
         super(viewPager, recyclingUtils, holderFactory);
     }
 

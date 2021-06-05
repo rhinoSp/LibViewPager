@@ -1,7 +1,8 @@
 package com.rhino.viewpager.base;
 
-import android.databinding.DataBindingUtil;
 import android.view.View;
+
+import androidx.databinding.DataBindingUtil;
 
 /**
  * @author LuoLin

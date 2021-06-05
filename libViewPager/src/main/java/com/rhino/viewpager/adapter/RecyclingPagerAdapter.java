@@ -1,12 +1,13 @@
 package com.rhino.viewpager.adapter;
 
 
-import android.support.annotation.Nullable;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+
+import androidx.annotation.Nullable;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import com.rhino.viewpager.utils.RecyclingUtils;
 
@@ -20,10 +21,14 @@ public abstract class RecyclingPagerAdapter extends PagerAdapter {
     public ViewPager viewPager;
     public RecyclingUtils recyclingUtils;
 
-    public RecyclingPagerAdapter(@Nullable ViewPager viewPager, RecyclingUtils recyclingUtils) {
+    public RecyclingPagerAdapter(@Nullable ViewPager viewPager, @Nullable RecyclingUtils recyclingUtils) {
         this.recyclingUtils = recyclingUtils;
-        setViewPager(viewPager);
-        recyclingUtils.setViewTypeCount(getViewTypeCount());
+        if (viewPager != null) {
+            setViewPager(viewPager);
+        }
+        if (recyclingUtils != null) {
+            recyclingUtils.setViewTypeCount(getViewTypeCount());
+        }
     }
 
     @Override

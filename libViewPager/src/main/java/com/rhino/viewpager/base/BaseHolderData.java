@@ -1,7 +1,7 @@
 package com.rhino.viewpager.base;
 
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
 
 /**
  * @author LuoLin
@@ -14,6 +14,7 @@ public abstract class BaseHolderData {
      */
     @LayoutRes
     abstract public int getLayoutRes();
+
     /**
      * Get the class name of ViewHolder.
      */

@@ -1,22 +1,38 @@
 package com.rhino.viewpager.demo;
 
-import android.databinding.DataBindingUtil;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.support.annotation.Nullable;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.viewpager.widget.ViewPager;
 
 import com.rhino.viewpager.adapter.LoopPageAdapter;
 import com.rhino.viewpager.adapter.SimplePageAdapter;
-import com.rhino.viewpager.transformers.*;
-import com.rhino.viewpager.view.CircleIndicator;
 import com.rhino.viewpager.demo.databinding.ActivityMainBinding;
+import com.rhino.viewpager.transformers.AccordionTransformer;
+import com.rhino.viewpager.transformers.BackgroundToForegroundTransformer;
+import com.rhino.viewpager.transformers.BookPageTransformer;
+import com.rhino.viewpager.transformers.BookPageWidget;
+import com.rhino.viewpager.transformers.CubeInTransformer;
+import com.rhino.viewpager.transformers.CubeOutTransformer;
+import com.rhino.viewpager.transformers.DefaultTransformer;
+import com.rhino.viewpager.transformers.DepthPageTransformer;
+import com.rhino.viewpager.transformers.FlipHorizontalTransformer;
+import com.rhino.viewpager.transformers.FlipVerticalTransformer;
+import com.rhino.viewpager.transformers.ForegroundToBackgroundTransformer;
+import com.rhino.viewpager.transformers.RotateDownTransformer;
+import com.rhino.viewpager.transformers.RotateUpTransformer;
+import com.rhino.viewpager.transformers.StackTransformer;
+import com.rhino.viewpager.transformers.TabletTransformer;
+import com.rhino.viewpager.transformers.VerticalPageTransformer;
+import com.rhino.viewpager.transformers.ZoomInTransformer;
+import com.rhino.viewpager.transformers.ZoomOutSlideTransformer;
+import com.rhino.viewpager.transformers.ZoomOutTransformer;
+import com.rhino.viewpager.view.CircleIndicator;
 
 import java.util.ArrayList;
 import java.util.List;

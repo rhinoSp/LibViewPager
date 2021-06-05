@@ -1,7 +1,8 @@
 package com.rhino.viewpager.demo;
 
-import android.support.annotation.Nullable;
 import android.view.View;
+
+import androidx.annotation.Nullable;
 
 import com.rhino.viewpager.base.BaseViewPagerHolderData;
 import com.rhino.viewpager.demo.databinding.VpagerItemBannerBinding;
