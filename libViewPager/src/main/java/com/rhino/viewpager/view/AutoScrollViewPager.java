@@ -35,6 +35,10 @@ public class AutoScrollViewPager extends ScrollAbleViewPager {
      **/
     private long interval = DEFAULT_INTERVAL;
     /**
+     * is auto scroll time contain scroll duration
+     */
+    private boolean isIntervalContainScrollDuration = false;
+    /**
      * auto scroll direction, default is {@link #RIGHT}
      **/
     private int direction = RIGHT;
@@ -57,11 +61,11 @@ public class AutoScrollViewPager extends ScrollAbleViewPager {
     /**
      * scroll factor for auto scroll animation, default is 1.0
      **/
-    private double autoScrollFactor = 1.0;
+    private float autoScrollFactor = 1.0f;
     /**
      * scroll factor for swipe scroll animation, default is 1.0
      **/
-    private double swipeScrollFactor = 1.0;
+    private float swipeScrollFactor = 1.0f;
 
     private Handler handler;
     private boolean isAutoScroll = false;
@@ -103,7 +107,11 @@ public class AutoScrollViewPager extends ScrollAbleViewPager {
      */
     public void startAutoScroll() {
         isAutoScroll = true;
-        sendScrollMessage((long) (interval + scrollerUtils.getDuration() / autoScrollFactor * swipeScrollFactor));
+        if (isIntervalContainScrollDuration) {
+            sendScrollMessage(interval);
+        } else {
+            sendScrollMessage(interval + scrollerUtils.getRealScrollDuration());
+        }
     }
 
     /**
@@ -134,14 +142,20 @@ public class AutoScrollViewPager extends ScrollAbleViewPager {
     /**
      * set the factor by which the duration of sliding animation will change while swiping
      */
-    public void setSwipeScrollDurationFactor(double scrollFactor) {
+    public void setSwipeScrollDurationFactor(float scrollFactor) {
+        if (scrollFactor <= 0) {
+            throw new RuntimeException("must > 0");
+        }
         swipeScrollFactor = scrollFactor;
     }
 
     /**
      * set the factor by which the duration of sliding animation will change while auto scrolling
      */
-    public void setAutoScrollDurationFactor(double scrollFactor) {
+    public void setAutoScrollDurationFactor(float scrollFactor) {
+        if (scrollFactor <= 0) {
+            throw new RuntimeException("must > 0");
+        }
         autoScrollFactor = scrollFactor;
     }
 
@@ -164,7 +178,7 @@ public class AutoScrollViewPager extends ScrollAbleViewPager {
             Field interpolatorField = ViewPager.class.getDeclaredField("sInterpolator");
             interpolatorField.setAccessible(true);
 
-            scrollerUtils = new ScrollerUtils(getContext(), new DecelerateInterpolator(3));//(Interpolator)interpolatorField.get(null));
+            scrollerUtils = new ScrollerUtils(getContext(), new DecelerateInterpolator(swipeScrollFactor));
             scrollerField.set(this, scrollerUtils);
         } catch (Exception e) {
             e.printStackTrace();
@@ -282,7 +296,7 @@ public class AutoScrollViewPager extends ScrollAbleViewPager {
                             pager.scrollerUtils.setScrollDurationFactor(pager.autoScrollFactor);
                             pager.scrollOnce();
                             pager.scrollerUtils.setScrollDurationFactor(pager.swipeScrollFactor);
-                            pager.sendScrollMessage(pager.interval + pager.scrollerUtils.getDuration());
+                            pager.startAutoScroll();
                         }
                     }
                     break;
@@ -308,6 +322,17 @@ public class AutoScrollViewPager extends ScrollAbleViewPager {
      */
     public void setInterval(long interval) {
         this.interval = interval;
+    }
+
+    /**
+     * set auto scroll time in milliseconds, default is {@link #DEFAULT_INTERVAL}
+     *
+     * @param interval                        the interval to set
+     * @param isIntervalContainScrollDuration is auto scroll time contain scroll duration
+     */
+    public void setInterval(long interval, boolean isIntervalContainScrollDuration) {
+        this.interval = interval;
+        this.isIntervalContainScrollDuration = isIntervalContainScrollDuration;
     }
 
     /**
