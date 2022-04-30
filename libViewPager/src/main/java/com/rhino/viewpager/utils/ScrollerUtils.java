@@ -26,6 +26,13 @@ public class ScrollerUtils extends android.widget.Scroller {
     }
 
     /**
+     * get real scroll duration
+     */
+    public int getRealScrollDuration() {
+        return (int) (getDuration() / scrollFactor);
+    }
+
+    /**
      * Set the factor by which the duration will change
      */
     public void setScrollDurationFactor(double scrollFactor) {
